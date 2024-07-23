@@ -27,6 +27,18 @@ nextTick(() => {
     let rect: Rect | undefined;
     let textbox: Textbox | undefined;
 
+    const syncTextbox = () => {
+      if (!canvas.value || !rect || !textbox) {
+        return;
+      }
+      console.log('ddd', rect?.width)
+      textbox.set({
+        left: rect?.left,
+        top: rect?.top,
+        width: rect?.width,
+      })
+      canvas.value.renderAll();
+    }
     // 鼠标移动时更新矩形大小
     canvas.value.on('mouse:move', function (options) {
       if (!canvas.value || !startX || !startY || getSelectedItems()?.length) {
@@ -50,16 +62,8 @@ nextTick(() => {
             selectable: true,
           });
 
-          rect.on('modified', () => {
-            if(canvas.value && textbox) {
-              textbox.set({
-                left: rect?.left,
-                top: rect?.top,
-                width: rect?.width,
-              })
-              canvas.value.renderAll();
-            }
-          })
+          rect.on('moving', syncTextbox);
+          rect.on('modified', syncTextbox);
           canvas.value.add(rect);
         } else {
           rect.set({ width, height });
@@ -76,15 +80,20 @@ nextTick(() => {
           left: rect.left,
           top: rect.top,
           width: rect.width,
-          fontSize: 16,
+          fontSize: 18,
           fill: '#fff',
           cornerSize: 6,
           transparentCorners: false,
+          hasControls: false,
+          lockRotation: true,
+          lockMovementX: true,
+          lockMovementY: true,
+          lockScalingFlip: true,
           editable: true // 允许编辑
         });
 
         rect.on('removed', () => {
-          if(canvas.value && textbox ) {
+          if (canvas.value && textbox) {
             canvas.value && canvas.value.remove(textbox)
           }
         })
