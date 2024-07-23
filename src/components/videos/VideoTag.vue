@@ -1,36 +1,44 @@
 <script setup lang="ts">
-import { nextTick, shallowRef, ref, watch } from 'vue';
-import { Canvas, Rect, Textbox, Control } from 'fabric'
-import { deleteImg } from './delete'
+import { nextTick, ref, shallowRef } from 'vue';
+import { Canvas, Control, Rect, Textbox } from 'fabric';
 
-const modelValue = defineModel()
 defineProps<{
   options: any
-}>()
-
+}>();
+const modelValue = defineModel();
 const canvasRef = ref();
-const canvas = shallowRef<Canvas>()
+const canvas = shallowRef<Canvas>();
+
+const deleteIcon = 'data:image/svg+xml,%3C%3Fxml version=\'1.0\' encoding=\'utf-8\'%3F%3E%3C!DOCTYPE svg PUBLIC \'-//W3C//DTD SVG 1.1//EN\' \'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\'%3E%3Csvg version=\'1.1\' id=\'Ebene_1\' xmlns=\'http://www.w3.org/2000/svg\' xmlns:xlink=\'http://www.w3.org/1999/xlink\' x=\'0px\' y=\'0px\' width=\'595.275px\' height=\'595.275px\' viewBox=\'200 215 230 470\' xml:space=\'preserve\'%3E%3Ccircle style=\'fill:%23F44336;\' cx=\'299.76\' cy=\'439.067\' r=\'218.516\'/%3E%3Cg%3E%3Crect x=\'267.162\' y=\'307.978\' transform=\'matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)\' style=\'fill:white;\' width=\'65.545\' height=\'262.18\'/%3E%3Crect x=\'266.988\' y=\'308.153\' transform=\'matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)\' style=\'fill:white;\' width=\'65.544\' height=\'262.179\'/%3E%3C/g%3E%3C/svg%3E';
+const deleteImg = document.createElement('img');
+deleteImg.src = deleteIcon;
 
 nextTick(() => {
-  if (!canvasRef.value) return;
+  if (!canvasRef.value) {
+    return;
+  }
 
   canvas.value = new Canvas(canvasRef.value);
 
   const getSelectedItems = () => {
-    if (!canvas.value) return;
+    if (!canvas.value) {
+      return;
+    }
     return canvas.value.getActiveObjects();
-  }
+  };
   canvas.value.on('after:render', () => {
-    if(canvas.value) {
+    if (canvas.value) {
       modelValue.value = canvas.value.toJSON()?.objects;
     }
-  })
+  });
 
-  canvas.value.on('mouse:down', function (options) {
-    if (!canvas.value) return;
+  canvas.value.on('mouse:down', (options) => {
+    if (!canvas.value) {
+      return;
+    }
     const pointer = canvas.value.getScenePoint(options.e);
-    let startX = pointer.x;
-    let startY = pointer.y;
+    const startX = pointer.x;
+    const startY = pointer.y;
     let rect: Rect | undefined;
     let textbox: Textbox | undefined;
 
@@ -42,11 +50,11 @@ nextTick(() => {
         left: rect?.left,
         top: rect?.top,
         width: rect?.width,
-      })
+      });
       canvas.value.renderAll();
-    }
+    };
     // 鼠标移动时更新矩形大小
-    canvas.value.on('mouse:move', function (options) {
+    canvas.value.on('mouse:move', (options) => {
       if (!canvas.value || !startX || !startY || getSelectedItems()?.length) {
         return;
       }
@@ -76,14 +84,15 @@ nextTick(() => {
             sizeY: 30,
             cursorStyle: 'pointer',
             // 鼠标按下事件
-            mouseUpHandler: (eventData, transform, x, y) => {
-              canvas.value && canvas.value.remove(transform.target);
-              canvas.value && canvas.value.renderAll();
+            mouseUpHandler(eventData, transform, x, y) {
+              if (canvas.value) {
+                canvas.value.remove(transform.target);
+                canvas.value.renderAll();
+              }
             },
-            // 控件名字
             actionName: 'delete',
             // 自定义渲染
-            render: (ctx, left, top, styleOverride, fabricObject) => {
+            render(ctx, left, top, styleOverride, fabricObject) {
               ctx.save();
               ctx.translate(left, top);
               ctx.drawImage(deleteImg, 0, 0, 20, 20);
@@ -104,8 +113,10 @@ nextTick(() => {
     });
 
     // 鼠标释放时停止绘制
-    canvas.value.on('mouse:up', function () {
-      if (!canvas.value) return;
+    canvas.value.on('mouse:up', () => {
+      if (!canvas.value) {
+        return;
+      }
       if (rect) {
         textbox = new Textbox('名称', {
           left: rect.left,
@@ -120,14 +131,14 @@ nextTick(() => {
           lockMovementX: true,
           lockMovementY: true,
           lockScalingFlip: true,
-          editable: true // 允许编辑
+          editable: true, // 允许编辑
         });
 
         rect.on('removed', () => {
           if (canvas.value && textbox) {
-            canvas.value && canvas.value.remove(textbox)
+            canvas.value.remove(textbox);
           }
-        })
+        });
         canvas.value.add(textbox);
       }
       canvas.value.off('mouse:move');
@@ -138,12 +149,13 @@ nextTick(() => {
 </script>
 
 <template>
-  <canvas ref="canvasRef" width="500" height="400" class="position-absolute w-full h-full top-0 left-0"></canvas>
+  <canvas ref="canvasRef" width="500" height="400" class="position-absolute w-full h-full top-0 left-0" />
 </template>
 
 <style lang="scss">
 .canvas-container {
   position: absolute !important;
   z-index: 9;
+  // pointer-events: ;
 }
 </style>
