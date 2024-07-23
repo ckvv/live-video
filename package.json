@@ -12,20 +12,24 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "vue": "^3.4.29"
+    "fabric": "^6.0.2",
+    "@videojs-player/vue": "^1.0.0",
+    "video.js": "^8.16.1",
+    "vue": "^3.4.29",
+    "element-plus": "^2.7.7"
   },
   "devDependencies": {
     "sass": "^1.77.8",
     "unocss": "^0.61.5",
     "unplugin-vue-components": "^0.27.3",
-    "eslint": "^8.57.0",
+    "eslint": "^9.7.0",
     "@antfu/eslint-config": "2.23.2",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.14.5",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/tsconfig": "^0.5.1",
     "npm-run-all2": "^6.2.0",
-    "typescript": "~5.4.0",
+    "typescript": "^5.5.4",
     "vite": "^5.3.1",
     "vue-tsc": "^2.0.21"
   },
