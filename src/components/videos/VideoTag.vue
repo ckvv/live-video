@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { nextTick, shallowRef, ref, watch } from 'vue';
-import { VideoPlayer } from '@videojs-player/vue'
 import { Canvas, Rect, Textbox, Control } from 'fabric'
 import { deleteImg } from './delete'
 
@@ -22,7 +21,7 @@ nextTick(() => {
     return canvas.value.getActiveObjects();
   }
   canvas.value.on('after:render', () => {
-    if (canvas.value) {
+    if(canvas.value) {
       modelValue.value = canvas.value.toJSON()?.objects;
     }
   })
@@ -139,16 +138,7 @@ nextTick(() => {
 </script>
 
 <template>
-  <div class="">
-    <div class="bg-white p-y-1">
-      <el-button>开始</el-button>
-      <el-button>暂停</el-button>
-    </div>
-    <div class="video-player position-relative w-500px h-400px">
-      <canvas ref="canvasRef" width="500" height="400" class="position-absolute w-full h-full top-0 left-0"></canvas>
-      <video-player v-bind="options" class="w-full h-full"></video-player>
-    </div>
-  </div>
+  <canvas ref="canvasRef" width="500" height="400" class="position-absolute w-full h-full top-0 left-0"></canvas>
 </template>
 
 <style lang="scss">

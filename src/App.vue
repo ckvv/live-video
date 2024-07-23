@@ -27,7 +27,7 @@ function exportJSON() {
     <el-button type="primary" @click="exportJSON">保存</el-button>
   </div>
   <div class="w-full flex flex-wrap gap-24px justify-center items-center">
-      <LiveVideo v-for="item in videoList" :options="item.options"></LiveVideo>
+      <LiveVideo v-for="item in videoList" v-model="item.objects" :options="item.options"></LiveVideo>
       <i v-for="i in 4" :key="i" class="w-500px h-0px"/>
   </div>
   <el-drawer v-model="drawerVisible" title="标注信息">
