@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { defaultVideos } from '@/constant/videos';
 
-const videoList = ref<any>(Array.from({ length: 2 }).map(v => ({ options: { src: '//vjs.zencdn.net/v/oceans.mp4', controls: true, autoplay: true } })));
+const defaultOptions = {
+  autoplay: true,
+  // muted: true, // https://developer.chrome.com/blog/autoplay?hl=zh-cn
+  controls: true,
+};
+const videoList = ref<any>(defaultVideos.map(v => ({ options: { src: v, ...defaultOptions } })));
 
 const dialogVisible = ref(false);
 const drawerVisible = ref(false);
@@ -9,9 +15,8 @@ const drawerVisible = ref(false);
 function addVideo(options: any) {
   videoList.value.push({
     options: {
+      ...defaultOptions,
       ...options,
-      controls: true,
-      autoplay: true,
     },
   });
 }
@@ -34,7 +39,7 @@ function exportJSON() {
     <VideoWrapper v-for="(item, key) in videoList" :key="key" v-model="item.objects" :options="item.options" />
     <i v-for="i in 4" :key="i" class="w-500px h-0px" />
   </div>
-  <el-drawer v-model="drawerVisible" title="标注信息">
+  <el-drawer v-model="drawerVisible" title="标注信息" class="min-w-400px! max-w-100vw">
     <pre>{{ videoList }}</pre>
   </el-drawer>
   <VideoDialog v-model:dialogVisible="dialogVisible" @confirm="addVideo" />
