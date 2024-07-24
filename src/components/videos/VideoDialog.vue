@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { FormInstance } from 'element-plus';
-import { defaultVideos } from '@/constant/videos';
+import { IPTVS } from '@/constant/iptvs';
 
 const emit = defineEmits(['confirm']);
 const ruleFormRef = ref<FormInstance>();
 const modelValue = defineModel();
-const videoOptions = defaultVideos.map(v => ({ label: v, value: v }));
+const videoOptions = IPTVS.map((v: any) => ({ label: v.name, value: v.src }));
 const options = ref<any>({});
 
 const rules = {
@@ -32,6 +32,10 @@ async function confirm(formEl: FormInstance | undefined) {
     }
   });
 }
+
+function onChangeSrc(src: string) {
+  options.value.name = (videoOptions.find((v: any) => v.value === src))?.label;
+}
 </script>
 
 <template>
@@ -49,7 +53,18 @@ async function confirm(formEl: FormInstance | undefined) {
           allow-create
           filterable
           placeholder="你可以点击选择或输入视频地址"
-        />
+          @change="onChangeSrc"
+        >
+          <template #default="{ item }">
+            <span class="m-r-1">{{ item.label }}</span>
+            <span class="color-gray">
+              {{ item.value }}
+            </span>
+          </template>
+        </el-select-v2>
+      </el-form-item>
+      <el-form-item label="名称" prop="name">
+        <el-input v-model="options.name" />
       </el-form-item>
       <el-form-item label="用户名" prop="username">
         <el-input v-model="options.username" />

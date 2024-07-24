@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { defaultVideos } from '@/constant/videos';
+// import { defaultVideos } from '@/constant/videos';
+import { IPTVS } from '@/constant/iptvs';
 
 const defaultOptions = {
   autoplay: true,
   muted: true, // https://developer.chrome.com/blog/autoplay?hl=zh-cn
   controls: false,
 };
-const videoList = ref<any>(defaultVideos.map(v => ({ options: { src: v, ...defaultOptions } })));
+const videoList = ref<any>(IPTVS.slice(0, 6).map(v => ({ options: { ...v, ...defaultOptions } })));
 
 const dialogVisible = ref(false);
 const drawerVisible = ref(false);

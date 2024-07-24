@@ -34,6 +34,7 @@ function onLoadedmetadata(payload: any) {
       <el-button size="small" @click="player?.muted(!player?.muted())">
         声音
       </el-button>
+      <span class="float-right">{{ options?.name }}</span>
     </div>
     <div class="position-relative w-500px h-400px">
       <VideoPlayer v-bind="options" class="w-full h-full" @mounted="handleMounted" @ready="player?.play()" @loadedmetadata="onLoadedmetadata">
