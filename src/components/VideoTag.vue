@@ -20,7 +20,10 @@ onMounted(() => {
   // canvas 绘制后同步绘制数据
   canvas.value.on('after:render', () => {
     if (canvas.value) {
-      modelValue.value = formatCanvasJSON(canvas.value.toJSON()?.objects, { width: 5, height: 3 });
+      modelValue.value = formatCanvasJSON(canvas.value.toJSON()?.objects, {
+        width: canvas.value.getWidth(),
+        height: canvas.value.getHeight(),
+      });
     }
   });
 });

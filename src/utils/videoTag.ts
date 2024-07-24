@@ -8,16 +8,24 @@ export function formatCanvasJSON(params: any, options: { width: number, height: 
   if (!Array.isArray(params)) {
     return [];
   }
+
+  const _width = options.width / 100;
+  const _height = options.height / 100;
+
   return params.filter(v => v.type === 'Rect').map((v, index) => {
-    const { left, top, width, height } = v;
+    const { left, top } = v;
+
+    // https://stackoverflow.com/questions/40933585/on-object-scaling-the-width-and-height-of-rectangle-dont-change-in-fabric-js
+    const width = v.width * v.scaleX;
+    const height = v.height * v.scaleY;
     return {
       text: params?.[2 * index + 1]?.text,
-      left: Math.round(left / options.width),
-      top: Math.round(top / options.height),
-      right: Math.round((left + width) / options.width),
-      bottom: Math.round((top + height) / options.height),
-      width: Math.round(width / options.width),
-      height: Math.round(height / options.height),
+      left: Math.round(left / _width),
+      top: Math.round(top / _height),
+      right: Math.round((left + width) / _width),
+      bottom: Math.round((top + height) / _height),
+      width: Math.round(width / _width),
+      height: Math.round(height / _height),
     };
   });
 }
