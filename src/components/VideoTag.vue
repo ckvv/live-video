@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, shallowRef } from 'vue';
+import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue';
 import type { Canvas } from 'fabric';
 import { formatCanvasJSON, getVideoCanvas } from '@/utils/videoTag';
 
-defineProps<{
-  video: { width: string, height: string }
+const props = defineProps<{
+  video: { width: number, height: number }
 }>();
 
 const modelValue = defineModel();
@@ -26,6 +26,20 @@ onMounted(() => {
 });
 onUnmounted(() => {
   canvas.value?.destroy();
+});
+
+// 适配不同分辨率视频，自适应调整 canvan 大小巧好覆盖视频内容
+watch(() => props.video, (value) => {
+  if (value) {
+    const { width, height } = value;
+    canvas.value?.setDimensions({
+      width: 500,
+      height: height * 500 / width,
+    });
+  }
+}, {
+  deep: true,
+  immediate: true,
 });
 </script>
 
