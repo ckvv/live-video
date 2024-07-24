@@ -37,3 +37,14 @@
 + 如果没有安装 pnpm 需要先执行 `corepack enable`
 + `pnpm install`: 安装依赖
 + `pnpm dev`: 启动 Vite 的开发服务器
+
+# 截图
+
+标注
+![标注](./images/标注.png)
+
+标注信息保存JSON
+![标注](./images/标注%20JSON.png)
+
+添加其他视频流
+![标注](./images/添加视频流.png)
