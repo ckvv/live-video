@@ -23,7 +23,7 @@ function download(data: any) {
 </script>
 
 <template>
-  <el-drawer v-model="modelValue" title="标注信息" class="min-w-500px! max-w-100vw">
+  <el-drawer v-model="modelValue" title="标注信息" class="min-w-400px! max-w-100vw">
     <pre class="w-full max-h-70vh overflow-auto m-y">{{ info }}</pre>
     <el-button class="w-full" @click="download(info)">
       导出JSON文件

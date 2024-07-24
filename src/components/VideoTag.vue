@@ -32,9 +32,10 @@ onUnmounted(() => {
 watch(() => props.video, (value) => {
   if (value) {
     const { width, height } = value;
+    const maxWidth = Math.min(window.innerWidth, 500);
     canvas.value?.setDimensions({
-      width: 500,
-      height: height * 500 / width,
+      width: maxWidth,
+      height: height * maxWidth / width,
     });
   }
 }, {
@@ -45,7 +46,7 @@ watch(() => props.video, (value) => {
 
 <template>
   <div class="w-full h-full flex justify-center items-center">
-    <canvas ref="canvasRef" width="500" height="300" class="position-absolute w-full h-full top-0 left-0" />
+    <canvas ref="canvasRef" width="400" height="300" class="position-absolute w-full h-full top-0 left-0" />
   </div>
 </template>
 
