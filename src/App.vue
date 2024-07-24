@@ -5,7 +5,11 @@ import { IPTVS } from '@/constant/iptvs';
 const defaultOptions = {
   autoplay: true,
   muted: true, // https://developer.chrome.com/blog/autoplay?hl=zh-cn
-  controls: false,
+  controls: true,
+  controlBar: {
+    pictureInPictureToggle: false,
+    fullscreenToggle: false,
+  },
 };
 const videoList = ref<any>(IPTVS.slice(0, 6).map(v => ({ options: { ...v, ...defaultOptions } })));
 
