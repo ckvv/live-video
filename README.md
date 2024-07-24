@@ -1,6 +1,6 @@
 # live-video
 
-出于浏览器权限限制<https://developer.chrome.com/blog/autoplay?hl=zh-cn>视频只能做到默认静音播放,可以用过用户操作打开声音、
+出于浏览器权限限制<https://developer.chrome.com/blog/autoplay?hl=zh-cn>视频只能做到`autoplay`需要设置默认静音,可以用过用户操作打开声音、
 
 + 使用到的框架: `Vue` `video.js` `fabric` 等
 + 在线预览 <https://ckvv.github.io/live-video/>

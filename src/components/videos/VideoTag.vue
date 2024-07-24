@@ -177,7 +177,7 @@ nextTick(() => {
 <style lang="scss">
 .canvas-container {
   position: absolute !important;
-  z-index: 9;
-  // pointer-events: ;
+  z-index: 1;
+  // pointer-events: none;
 }
 </style>

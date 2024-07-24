@@ -52,7 +52,7 @@ function onChangeSrc(src: string) {
           :options="videoOptions"
           allow-create
           filterable
-          placeholder="你可以点击选择或输入视频地址"
+          placeholder="你可以输入或选择视频地址"
           @change="onChangeSrc"
         >
           <template #default="{ item }">
@@ -62,12 +62,6 @@ function onChangeSrc(src: string) {
             </span>
           </template>
         </el-select-v2>
-      </el-form-item>
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="options.username" />
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="options.password" />
       </el-form-item>
     </el-form>
     <template #footer>
