@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import videojs from 'video.js';
-import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue';
+import { onMounted, onUnmounted, ref, shallowRef } from 'vue';
 
 const props = defineProps<{
   options: any
@@ -13,10 +13,9 @@ onMounted(() => {
     player.value.log('onPlayerReady');
   });
 });
-onBeforeUnmount(() => {
-  if (player.value) {
-    player.value.dispose();
-  }
+
+onUnmounted(() => {
+  player.value?.dispose();
 });
 </script>
 

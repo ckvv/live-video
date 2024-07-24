@@ -1,3 +1,12 @@
+export const defaultOptions = {
+  autoplay: true,
+  muted: true, // https://developer.chrome.com/blog/autoplay?hl=zh-cn
+  controls: true,
+  controlBar: {
+    pictureInPictureToggle: false,
+    fullscreenToggle: false,
+  },
+};
 export const defaultVideos = [
   'http://cm-wshls.homecdn.com/live/8bb.m3u8',
   // 'http://cm-wshls.homecdn.com/live/8bd.m3u8',

@@ -1,20 +1,10 @@
-<script setup lang="ts">
-import { nextTick, ref, shallowRef } from 'vue';
 import { Canvas, Control, Rect, Textbox } from 'fabric';
-
-defineProps<{
-  video: { width: string, height: string }
-}>();
-
-const modelValue = defineModel();
-const canvasRef = ref();
-const canvas = shallowRef<Canvas>();
 
 const deleteIcon = 'data:image/svg+xml,%3C%3Fxml version=\'1.0\' encoding=\'utf-8\'%3F%3E%3C!DOCTYPE svg PUBLIC \'-//W3C//DTD SVG 1.1//EN\' \'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\'%3E%3Csvg version=\'1.1\' id=\'Ebene_1\' xmlns=\'http://www.w3.org/2000/svg\' xmlns:xlink=\'http://www.w3.org/1999/xlink\' x=\'0px\' y=\'0px\' width=\'595.275px\' height=\'595.275px\' viewBox=\'200 215 230 470\' xml:space=\'preserve\'%3E%3Ccircle style=\'fill:%23F44336;\' cx=\'299.76\' cy=\'439.067\' r=\'218.516\'/%3E%3Cg%3E%3Crect x=\'267.162\' y=\'307.978\' transform=\'matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)\' style=\'fill:white;\' width=\'65.545\' height=\'262.18\'/%3E%3Crect x=\'266.988\' y=\'308.153\' transform=\'matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)\' style=\'fill:white;\' width=\'65.544\' height=\'262.179\'/%3E%3C/g%3E%3C/svg%3E';
 const deleteImg = document.createElement('img');
 deleteImg.src = deleteIcon;
 
-function formatCanvasJSON(params: any, options: { width: number, height: number }) {
+export function formatCanvasJSON(params: any, options: { width: number, height: number }) {
   if (!Array.isArray(params)) {
     return [];
   }
@@ -32,37 +22,28 @@ function formatCanvasJSON(params: any, options: { width: number, height: number 
   });
 }
 
-nextTick(() => {
-  if (!canvasRef.value) {
-    return;
-  }
-
-  canvas.value = new Canvas(canvasRef.value);
+export function getVideoCanvas(el: any) {
+  const canvas: Canvas = new Canvas(el);
 
   const getSelectedItems = () => {
-    if (!canvas.value) {
+    if (!canvas) {
       return;
     }
-    return canvas.value.getActiveObjects();
+    return canvas.getActiveObjects();
   };
-  canvas.value.on('after:render', () => {
-    if (canvas.value) {
-      modelValue.value = formatCanvasJSON(canvas.value.toJSON()?.objects, { width: 5, height: 3 });
-    }
-  });
 
-  canvas.value.on('mouse:down', (options) => {
-    if (!canvas.value) {
+  canvas.on('mouse:down', (options) => {
+    if (!canvas) {
       return;
     }
-    const pointer = canvas.value.getScenePoint(options.e);
+    const pointer = canvas.getScenePoint(options.e);
     const startX = pointer.x;
     const startY = pointer.y;
     let rect: Rect | undefined;
     let textbox: Textbox | undefined;
 
     const syncTextbox = () => {
-      if (!canvas.value || !rect || !textbox) {
+      if (!canvas || !rect || !textbox) {
         return;
       }
       textbox.set({
@@ -70,14 +51,14 @@ nextTick(() => {
         top: rect?.top,
         width: rect?.width,
       });
-      canvas.value.renderAll();
+      canvas.renderAll();
     };
     // 鼠标移动时更新矩形大小
-    canvas.value.on('mouse:move', (options) => {
-      if (!canvas.value || !startX || !startY || getSelectedItems()?.length) {
+    canvas.on('mouse:move', (options) => {
+      if (!canvas || !startX || !startY || getSelectedItems()?.length) {
         return;
       }
-      const pointer = canvas.value.getScenePoint(options.e);
+      const pointer = canvas.getScenePoint(options.e);
       const width = Math.abs(pointer.x - startX);
       const height = Math.abs(pointer.y - startY);
       const distance = Math.sqrt(width * width + height * height);
@@ -104,9 +85,9 @@ nextTick(() => {
             cursorStyle: 'pointer',
             // 鼠标按下事件
             mouseUpHandler(eventData, transform, x, y) {
-              if (canvas.value) {
-                canvas.value.remove(transform.target);
-                canvas.value.renderAll();
+              if (canvas) {
+                canvas.remove(transform.target);
+                canvas.renderAll();
               }
             },
             actionName: 'delete',
@@ -123,17 +104,17 @@ nextTick(() => {
 
           rect.on('moving', syncTextbox);
           rect.on('modified', syncTextbox);
-          canvas.value.add(rect);
+          canvas.add(rect);
         } else {
           rect.set({ width, height });
         }
       }
-      canvas.value.renderAll();
+      canvas.renderAll();
     });
 
     // 鼠标释放时停止绘制
-    canvas.value.on('mouse:up', () => {
-      if (!canvas.value) {
+    canvas.on('mouse:up', () => {
+      if (!canvas) {
         return;
       }
       if (rect) {
@@ -155,29 +136,16 @@ nextTick(() => {
         });
 
         rect.on('removed', () => {
-          if (canvas.value && textbox) {
-            canvas.value.remove(textbox);
+          if (canvas && textbox) {
+            canvas.remove(textbox);
           }
         });
-        canvas.value.add(textbox);
+        canvas.add(textbox);
       }
-      canvas.value.off('mouse:move');
-      canvas.value.off('mouse:up');
+      canvas.off('mouse:move');
+      canvas.off('mouse:up');
     });
   });
-});
-</script>
 
-<template>
-  <div class="w-full h-full flex justify-center items-center">
-    <canvas ref="canvasRef" width="500" height="300" class="position-absolute w-full h-full top-0 left-0" />
-  </div>
-</template>
-
-<style lang="scss">
-.canvas-container {
-  position: absolute !important;
-  z-index: 1;
-  // pointer-events: none;
+  return canvas;
 }
-</style>

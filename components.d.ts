@@ -20,11 +20,12 @@ declare module 'vue' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
-    VideoDialog: typeof import('./src/components/videos/VideoDialog.vue')['default']
-    VideoInfo: typeof import('./src/components/videos/VideoInfo.vue')['default']
-    VideoItem: typeof import('./src/components/videos/VideoItem.vue')['default']
-    VideoList: typeof import('./src/components/videos/VideoList.vue')['default']
-    VideoPlayer: typeof import('./src/components/videos/VideoPlayer.vue')['default']
-    VideoTag: typeof import('./src/components/videos/VideoTag.vue')['default']
+    VideoDialog: typeof import('./src/components/VideoDialog.vue')['default']
+    VideoInfo: typeof import('./src/components/VideoInfo.vue')['default']
+    VideoItem: typeof import('./src/components/VideoItem.vue')['default']
+    VideoList: typeof import('./src/components/VideoList.vue')['default']
+    VideoOperate: typeof import('./src/components/VideoOperate.vue')['default']
+    VideoPlayer: typeof import('./src/components/VideoPlayer.vue')['default']
+    VideoTag: typeof import('./src/components/VideoTag.vue')['default']
   }
 }
