@@ -20,8 +20,12 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     VideoDialog: typeof import('./src/components/videos/VideoDialog.vue')['default']
+    VideoInfo: typeof import('./src/components/videos/VideoInfo.vue')['default']
+    VideoItem: typeof import('./src/components/videos/VideoItem.vue')['default']
+    VideoList: typeof import('./src/components/videos/VideoList.vue')['default']
     VideoPlayer: typeof import('./src/components/videos/VideoPlayer.vue')['default']
     VideoTag: typeof import('./src/components/videos/VideoTag.vue')['default']
     VideoWrapper: typeof import('./src/components/videos/VideoWrapper.vue')['default']
+    VidoeList: typeof import('./src/components/videos/VidoeList.vue')['default']
   }
 }

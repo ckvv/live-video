@@ -24,7 +24,7 @@ function onLoadedmetadata(payload: any) {
 
 <template>
   <div class="video-wrapper">
-    <div class="bg-white p-y-1">
+    <div class="bg-white p-y-1 max-sm:flex max-sm:justify-center max-sm:items-center">
       <el-button size="small" @click="player?.play()">
         开始
       </el-button>
@@ -34,7 +34,7 @@ function onLoadedmetadata(payload: any) {
       <el-button size="small" @click="player?.muted(!player?.muted())">
         声音
       </el-button>
-      <span class="float-right">{{ options?.name }}</span>
+      <span class="p-l float-right">{{ options?.name }}</span>
     </div>
     <div class="position-relative w-500px h-400px">
       <VideoPlayer v-bind="options" class="w-full h-full" @mounted="handleMounted" @ready="player?.play()" @loadedmetadata="onLoadedmetadata">

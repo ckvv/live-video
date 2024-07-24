@@ -63,9 +63,6 @@ function onChangeSrc(src: string) {
           </template>
         </el-select-v2>
       </el-form-item>
-      <el-form-item label="名称" prop="name">
-        <el-input v-model="options.name" />
-      </el-form-item>
       <el-form-item label="用户名" prop="username">
         <el-input v-model="options.username" />
       </el-form-item>

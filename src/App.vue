@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-// import { defaultVideos } from '@/constant/videos';
+import { computed, ref } from 'vue';
 import { IPTVS } from '@/constant/iptvs';
 
 const defaultOptions = {
@@ -22,9 +21,15 @@ function addVideo(options: any) {
   });
 }
 
-function exportJSON() {
-  drawerVisible.value = true;
-}
+const formatVideoList = computed((v) => {
+  return videoList.value.map((video: any) => {
+    return {
+      src: video.options?.src,
+      name: video.options?.name,
+      objects: video?.objects,
+    };
+  });
+});
 </script>
 
 <template>
@@ -32,16 +37,11 @@ function exportJSON() {
     <el-button type="primary" @click="dialogVisible = true">
       添加视频
     </el-button>
-    <el-button type="primary" @click="exportJSON">
+    <el-button type="primary" @click="drawerVisible = true">
       保存
     </el-button>
   </div>
-  <div class="w-full flex flex-wrap gap-24px justify-center items-center">
-    <VideoWrapper v-for="(item, key) in videoList" :key="key" v-model="item.objects" :options="item.options" />
-    <i v-for="i in 4" :key="i" class="w-500px h-0px" />
-  </div>
-  <el-drawer v-model="drawerVisible" title="标注信息" class="min-w-400px! max-w-100vw">
-    <pre>{{ videoList }}</pre>
-  </el-drawer>
+  <VideoList :data="videoList" />
+  <VideoInfo v-model="drawerVisible" :info="formatVideoList" />
   <VideoDialog v-model="dialogVisible" @confirm="addVideo" />
 </template>
