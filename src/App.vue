@@ -4,8 +4,8 @@ import { defaultVideos } from '@/constant/videos';
 
 const defaultOptions = {
   autoplay: true,
-  // muted: true, // https://developer.chrome.com/blog/autoplay?hl=zh-cn
-  controls: true,
+  muted: true, // https://developer.chrome.com/blog/autoplay?hl=zh-cn
+  controls: false,
 };
 const videoList = ref<any>(defaultVideos.map(v => ({ options: { src: v, ...defaultOptions } })));
 
@@ -42,5 +42,5 @@ function exportJSON() {
   <el-drawer v-model="drawerVisible" title="标注信息" class="min-w-400px! max-w-100vw">
     <pre>{{ videoList }}</pre>
   </el-drawer>
-  <VideoDialog v-model:dialogVisible="dialogVisible" @confirm="addVideo" />
+  <VideoDialog v-model="dialogVisible" @confirm="addVideo" />
 </template>

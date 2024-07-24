@@ -26,6 +26,7 @@ declare module 'vue' {
     LiveVideo: typeof import('./src/components/videos/LiveVideo.vue')['default']
     LiveVideoAdd: typeof import('./src/components/videos/LiveVideoAdd.vue')['default']
     VideoDialog: typeof import('./src/components/videos/VideoDialog.vue')['default']
+    VideoPlayer: typeof import('./src/components/videos/VideoPlayer.vue')['default']
     VideoTag: typeof import('./src/components/videos/VideoTag.vue')['default']
     VideoWrapper: typeof import('./src/components/videos/VideoWrapper.vue')['default']
   }

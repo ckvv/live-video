@@ -3,8 +3,10 @@ import { nextTick, ref, shallowRef } from 'vue';
 import { Canvas, Control, Rect, Textbox } from 'fabric';
 
 defineProps<{
-  options: any
+  video: { width: string, height: string }
 }>();
+
+const id = ref(0);
 const modelValue = defineModel();
 const canvasRef = ref();
 const canvas = shallowRef<Canvas>();
@@ -13,12 +15,35 @@ const deleteIcon = 'data:image/svg+xml,%3C%3Fxml version=\'1.0\' encoding=\'utf-
 const deleteImg = document.createElement('img');
 deleteImg.src = deleteIcon;
 
+function formatCanvasJSON(params: any) {
+  if (!Array.isArray(params)) {
+    return [];
+  }
+  return params.filter(v => v.type === 'Rect').map((v, index) => {
+    const { left, top, width, height } = v;
+    return {
+      text: params?.[2 * index + 1]?.text,
+      left: Math.round(left / 5),
+      top: Math.round(top / 3),
+      right: Math.round((left + width) / 5),
+      bottom: Math.round((top + height) / 3),
+      width: Math.round(width / 5),
+      height: Math.round(height / 3),
+    };
+  });
+}
+
 nextTick(() => {
   if (!canvasRef.value) {
     return;
   }
 
   canvas.value = new Canvas(canvasRef.value);
+  // canvas.value.setDimensions({
+  //   width: props.video.width,
+  //   height: props.video.height,
+  // });
+  // canvas.value.renderAll();
 
   const getSelectedItems = () => {
     if (!canvas.value) {
@@ -28,7 +53,7 @@ nextTick(() => {
   };
   canvas.value.on('after:render', () => {
     if (canvas.value) {
-      modelValue.value = canvas.value.toJSON()?.objects;
+      modelValue.value = formatCanvasJSON(canvas.value.toJSON()?.objects);
     }
   });
 
@@ -36,6 +61,7 @@ nextTick(() => {
     if (!canvas.value) {
       return;
     }
+    id.value++;
     const pointer = canvas.value.getScenePoint(options.e);
     const startX = pointer.x;
     const startY = pointer.y;
@@ -124,6 +150,7 @@ nextTick(() => {
           width: rect.width,
           fontSize: 18,
           fill: '#fff',
+          backgroundColor: '#0062B18F',
           cornerSize: 6,
           transparentCorners: false,
           hasControls: false,
@@ -149,7 +176,9 @@ nextTick(() => {
 </script>
 
 <template>
-  <canvas ref="canvasRef" width="500" height="400" class="position-absolute w-full h-full top-0 left-0" />
+  <div class="w-full h-full flex justify-center items-center">
+    <canvas ref="canvasRef" width="500" height="300" class="position-absolute w-full h-full top-0 left-0" />
+  </div>
 </template>
 
 <style lang="scss">
