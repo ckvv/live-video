@@ -95,7 +95,7 @@ export function getVideoCanvas(el: any) {
             render(ctx, left, top, styleOverride, fabricObject) {
               ctx.save();
               ctx.translate(left, top);
-              ctx.drawImage(deleteImg, 0, 0, 20, 20);
+              ctx.drawImage(deleteImg, 0, 0, 24, 24);
               ctx.restore();
             },
           });

@@ -42,6 +42,7 @@ function onChangeSrc(src: string) {
   <el-dialog
     v-model="modelValue"
     title="视频设置"
+    class="max-sm:min-w-100vw min-w-400px"
     @open="options.value = {}"
     @close="close"
   >
