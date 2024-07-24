@@ -25,7 +25,5 @@ declare module 'vue' {
     VideoList: typeof import('./src/components/videos/VideoList.vue')['default']
     VideoPlayer: typeof import('./src/components/videos/VideoPlayer.vue')['default']
     VideoTag: typeof import('./src/components/videos/VideoTag.vue')['default']
-    VideoWrapper: typeof import('./src/components/videos/VideoWrapper.vue')['default']
-    VidoeList: typeof import('./src/components/videos/VidoeList.vue')['default']
   }
 }
